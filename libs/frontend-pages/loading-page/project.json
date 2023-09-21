@@ -2,7 +2,7 @@
   "name": "loading-page",
   "$schema": "../../../node_modules/nx/schemas/project-schema.json",
   "sourceRoot": "libs/frontend-pages/loading-page/src",
-  "prefix": "github-analysis-test",
+  "prefix": "gat",
   "tags": [],
   "projectType": "library",
   "targets": {
