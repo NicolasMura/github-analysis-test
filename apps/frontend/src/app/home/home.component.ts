@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component } from '@angular/core';
+import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { SearchComponent } from '@github-analysis-test/search';
 
@@ -7,6 +7,5 @@ import { SearchComponent } from '@github-analysis-test/search';
   standalone: true,
   imports: [CommonModule, SearchComponent],
   templateUrl: './home.component.html',
-  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class HomeComponent {}

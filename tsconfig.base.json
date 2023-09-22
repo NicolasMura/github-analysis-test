@@ -15,11 +15,10 @@
     "skipDefaultLibCheck": true,
     "baseUrl": ".",
     "paths": {
-      "@github-analysis-test/home": ["libs/frontend-pages/home/src/index.ts"],
-      "@github-analysis-test/loading-page": [
-        "libs/frontend-pages/loading-page/src/index.ts"
-      ],
-      "@github-analysis-test/search": ["libs/components/search/src/index.ts"]
+      "@github-analysis-test/search": ["libs/components/search/src/index.ts"],
+      "@github-analysis-test/starting-loader": [
+        "libs/components/starting-loader/src/index.ts"
+      ]
     }
   },
   "exclude": ["node_modules", "tmp"]

@@ -5,7 +5,7 @@ export const appRoutes: Routes = [
   {
     path: 'home',
     loadComponent: () =>
-      import('@github-analysis-test/home').then(
+      import('./home/home.component').then(
         ({ HomeComponent }) => HomeComponent,
       ),
   },
