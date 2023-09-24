@@ -9,4 +9,11 @@ export const appRoutes: Routes = [
         ({ HomeComponent }) => HomeComponent,
       ),
   },
+  {
+    path: 'repositories/:name',
+    loadComponent: () =>
+      import('./repository-details/repository-details.component').then(
+        ({ RepositoryDetailsComponent }) => RepositoryDetailsComponent,
+      ),
+  },
 ];
