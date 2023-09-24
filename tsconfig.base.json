@@ -15,6 +15,7 @@
     "skipDefaultLibCheck": true,
     "baseUrl": ".",
     "paths": {
+      "@github-analysis-test/api-sdk": ["libs/api-ski/src/index.ts"],
       "@github-analysis-test/environment": ["environments/index.ts"],
       "@github-analysis-test/models": ["libs/utilities/models/src/index.ts"],
       "@github-analysis-test/repository-form": [

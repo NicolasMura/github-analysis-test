@@ -4,11 +4,10 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatInputModule } from '@angular/material/input';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { NonNullableFormBuilder, ReactiveFormsModule } from '@angular/forms';
-import { environment } from '@github-analysis-test/environment';
 import { RepositoryListComponent } from '@github-analysis-test/repository-list';
 import { BehaviorSubject, catchError, debounceTime, from, of, switchMap, tap } from 'rxjs';
-import { Octokit } from 'octokit';
 import { GetReposResponse } from '@github-analysis-test/models';
+import { OctokitService } from '@github-analysis-test/api-sdk';
 
 @Component({
   selector: 'gat-repository-form',
@@ -25,6 +24,7 @@ import { GetReposResponse } from '@github-analysis-test/models';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class RepositoryFormComponent implements OnInit {
+  private octokitService = inject(OctokitService);
   private nnfb = inject(NonNullableFormBuilder);
   private searchInputRef!: ElementRef;
   @ViewChild('searchInputRef', { static: false }) private set input(searchInputRef: ElementRef) {
@@ -33,9 +33,6 @@ export class RepositoryFormComponent implements OnInit {
 
   repositories$ = new BehaviorSubject<GetReposResponse['data']['items']>([]);
   isLoading$ = new BehaviorSubject(false);
-  octokit = new Octokit({
-    auth: environment.octokit.accessToken
-  });
 
   form = this.nnfb.group({
     search: ['']
@@ -71,7 +68,7 @@ export class RepositoryFormComponent implements OnInit {
   }
 
   async searchGithubRepositories(query: string): Promise<GetReposResponse['data']> {
-    const { data } = await this.octokit.request('/search/repositories?q={query}&type={type}', {
+    const { data } = await this.octokitService.octokit.request('/search/repositories?q={query}&type={type}', {
         query,
         type: 'repositories',
       });
