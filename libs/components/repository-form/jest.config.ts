@@ -1,9 +1,9 @@
 /* eslint-disable */
 export default {
-  displayName: 'search',
+  displayName: 'repository-form',
   preset: '../../../jest.preset.js',
   setupFilesAfterEnv: ['<rootDir>/src/test-setup.ts'],
-  coverageDirectory: '../../../coverage/libs/components/search',
+  coverageDirectory: '../../../coverage/libs/components/repository-form',
   transform: {
     '^.+\\.(ts|mjs|js|html)$': [
       'jest-preset-angular',

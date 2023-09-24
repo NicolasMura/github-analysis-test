@@ -1,0 +1,25 @@
+<form
+  *ngIf="{
+    repositories: repositories$ | async,
+    isLoading: isLoading$ | async
+  } as data"
+  [formGroup]="form"
+>
+  <mat-form-field appearance="outline" class="w-full">
+    <input
+      matInput
+      type="text"
+      formControlName="search"
+      placeholder="Type (CMD + F) or (CTRL + F) to search among Github repositories..."
+      #searchInputRef
+    >
+    <mat-icon *ngIf="!data.isLoading && form.controls.search.value" matSuffix (click)="form.controls.search.patchValue('')">close</mat-icon>
+    <mat-spinner *ngIf="data.isLoading" matSuffix [diameter]="18" class="float-right mr-4"></mat-spinner>
+  </mat-form-field>
+
+  <div class="wrapper">
+    <div [class.opacity]="data.isLoading">
+      <gat-repository-list [repositories]="data.repositories || []"></gat-repository-list>
+    </div>
+  </div>
+</form>

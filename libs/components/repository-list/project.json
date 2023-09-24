@@ -1,7 +1,7 @@
 {
-  "name": "search",
+  "name": "repository-list",
   "$schema": "../../../node_modules/nx/schemas/project-schema.json",
-  "sourceRoot": "libs/components/search/src",
+  "sourceRoot": "libs/components/repository-list/src",
   "prefix": "gat",
   "tags": [],
   "projectType": "library",
@@ -10,7 +10,7 @@
       "executor": "@nx/jest:jest",
       "outputs": ["{workspaceRoot}/coverage/{projectRoot}"],
       "options": {
-        "jestConfig": "libs/components/search/jest.config.ts",
+        "jestConfig": "libs/components/repository-list/jest.config.ts",
         "passWithNoTests": true
       },
       "configurations": {
@@ -25,8 +25,8 @@
       "outputs": ["{options.outputFile}"],
       "options": {
         "lintFilePatterns": [
-          "libs/components/search/**/*.ts",
-          "libs/components/search/**/*.html"
+          "libs/components/repository-list/**/*.ts",
+          "libs/components/repository-list/**/*.html"
         ]
       }
     }

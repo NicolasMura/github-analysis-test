@@ -15,7 +15,14 @@
     "skipDefaultLibCheck": true,
     "baseUrl": ".",
     "paths": {
-      "@github-analysis-test/search": ["libs/components/search/src/index.ts"],
+      "@github-analysis-test/environment": ["environments/index.ts"],
+      "@github-analysis-test/models": ["libs/utilities/models/src/index.ts"],
+      "@github-analysis-test/repository-form": [
+        "libs/components/repository-form/src/index.ts"
+      ],
+      "@github-analysis-test/repository-list": [
+        "libs/components/repository-list/src/index.ts"
+      ],
       "@github-analysis-test/starting-loader": [
         "libs/components/starting-loader/src/index.ts"
       ]

@@ -64,7 +64,9 @@
       "!{projectRoot}/.eslintrc.json",
       "!{projectRoot}/eslint.config.js"
     ],
-    "sharedGlobals": []
+    "sharedGlobals": [
+      "{workspaceRoot}/environments"
+    ]
   },
   "generators": {
     "@nx/angular:application": {

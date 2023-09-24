@@ -1,0 +1,52 @@
+<mat-table [dataSource]="repositories || []" class="mat-elevation-z8">
+
+  <ng-container matColumnDef="name">
+    <mat-header-cell *matHeaderCellDef>
+      Name
+    </mat-header-cell>
+    <mat-cell *matCellDef="let repository;">
+      {{ repository.name }}
+    </mat-cell>
+  </ng-container>
+
+  <ng-container matColumnDef="description">
+    <mat-header-cell *matHeaderCellDef>
+      Description
+    </mat-header-cell>
+    <mat-cell *matCellDef="let repository;">
+      {{ repository.description }}
+    </mat-cell>
+  </ng-container>
+
+  <ng-container matColumnDef="language">
+    <mat-header-cell *matHeaderCellDef>
+      Language
+    </mat-header-cell>
+    <mat-cell *matCellDef="let repository;">
+      {{ repository.language }}
+    </mat-cell>
+  </ng-container>
+
+  <ng-container matColumnDef="actions">
+    <mat-header-cell *matHeaderCellDef>
+    </mat-header-cell>
+    <mat-cell *matCellDef="let repository;" class="justify-end">
+      <button mat-icon-button aria-label="Watch"
+              (click)="goTo(repository)"
+              matTooltip="Go to this repository">
+        <mat-icon>arrow_forward_ios</mat-icon>
+      </button>
+    </mat-cell>
+  </ng-container>
+
+  <mat-header-row *matHeaderRowDef="displayedColumns">
+  </mat-header-row>
+  <mat-row *matRowDef="let repository; columns: displayedColumns;">
+  </mat-row>
+
+  <!-- Row shown when there is no matching data. -->
+  <tr class="mat-row matNoDataRow" *matNoDataRow>
+    <td *ngIf="repositories?.length === 0">No repository.</td>
+  </tr>
+
+</mat-table>

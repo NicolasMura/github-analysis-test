@@ -1,0 +1,20 @@
+{
+  "name": "models",
+  "$schema": "../../../node_modules/nx/schemas/project-schema.json",
+  "sourceRoot": "libs/utilities/models/src",
+  "prefix": "github-analysis-test",
+  "tags": [],
+  "projectType": "library",
+  "targets": {
+    "lint": {
+      "executor": "@nx/linter:eslint",
+      "outputs": ["{options.outputFile}"],
+      "options": {
+        "lintFilePatterns": [
+          "libs/utilities/models/**/*.ts",
+          "libs/utilities/models/**/*.html"
+        ]
+      }
+    }
+  }
+}
