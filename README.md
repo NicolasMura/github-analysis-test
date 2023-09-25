@@ -2,11 +2,9 @@
 
 Frontend (Angular) monorepo for a technical test.
 
-- [Github Analysis Test](#github-analysis-test)
-- [Requirements](#requirements)
-- [Cheatsheet](#cheatsheet)
+[[_TOC_]]
 
-# Requirements
+## Requirements
 
 To contribute to this project and run it locally, you will need:
 
@@ -15,7 +13,35 @@ To contribute to this project and run it locally, you will need:
 - [Typescript >=4.9.3 <5.2.0](https://www.typescriptlang.org)
 - [RXJS ^6.5.3 || ^7.4.0](https://rxjs.dev/)
 
-# Cheatsheet
+## Getting Started
+
+Technologies used across the project:
+
+- framework: [Angular](https://angular.io/)
+- monorepo: [Nx](https://www.nx.dev)
+- standalone components
+- components library: [Angular Material](https://material.angular.io/components)
+- CSS framework: [Tailwind CSS](https://tailwindcss.com)
+- state manager: [Elf](https://ngneat.github.io/elf/) (super simple state manager fueled by RxJS and integrated
+  in [Redux DevTools](https://chrome.google.com/webstore/detail/redux-devtools/lmhkpmbekcpmknklioeibfkpmmfibljd))
+- unit testing: [Jest](https://jestjs.io)
+- integration testing: [Cypress](https://www.cypress.io)
+
+## Dev Setup
+
+```bash
+  # install the dependencies
+  yarn
+  yarn add -g nx # not mandatory, you can use `npx nx` instead
+
+  # Add your own Github access token in `environment.local.ts` (to be improved in a next version)
+  cp environments/environment.dev.ts environments/environment.local.ts
+
+  # run the app - it will start a server and livereload the app
+  nx serve
+```
+
+## Cheatsheet
 
 This project was generated using [Nx](https://nx.dev) and below interactive command:
 

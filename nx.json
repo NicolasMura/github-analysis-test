@@ -17,6 +17,7 @@
   "workspaceLayout": {
     "projectNameAndRootFormat": "as-provided"
   },
+  "defaultProject": "frontend",
   "targetDefaults": {
     "build": {
       "dependsOn": [
