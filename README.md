@@ -2,7 +2,11 @@
 
 Frontend (Angular) monorepo for a technical test.
 
-[[_TOC_]]
+- [Github Analysis Test](#github-analysis-test)
+  - [Requirements](#requirements)
+  - [Getting Started](#getting-started)
+  - [Dev Setup](#dev-setup)
+  - [Cheatsheet](#cheatsheet)
 
 ## Requirements
 
