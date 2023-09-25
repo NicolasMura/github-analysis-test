@@ -1,6 +1,6 @@
 <form
   *ngIf="{
-    repositories: repositories$ | async,
+    repositories: repositoriesState.repositories$ | async,
     isLoading: isLoading$ | async
   } as data"
   [formGroup]="form"

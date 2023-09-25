@@ -32,7 +32,7 @@
     </mat-header-cell>
     <mat-cell *matCellDef="let repository;" class="justify-end">
       <button mat-icon-button aria-label="Watch"
-              (click)="router.navigate(['/repositories', repository.name])"
+              (click)="selectRepository(repository)"
               matTooltip="Go to this repository">
         <mat-icon>arrow_forward_ios</mat-icon>
       </button>

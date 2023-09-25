@@ -5,3 +5,5 @@ export type GetReposParameters =
 
 export type GetReposResponse =
   RestEndpointMethodTypes['search']['repos']['response'];
+
+export type Repository = GetReposResponse['data']['items'][0];

@@ -6,8 +6,9 @@ import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { NonNullableFormBuilder, ReactiveFormsModule } from '@angular/forms';
 import { RepositoryListComponent } from '@github-analysis-test/repository-list';
 import { BehaviorSubject, catchError, debounceTime, from, of, switchMap, tap } from 'rxjs';
-import { GetReposResponse } from '@github-analysis-test/models';
+import { Repository } from '@github-analysis-test/models';
 import { OctokitService } from '@github-analysis-test/api-sdk';
+import { RepositoriesState } from '@github-analysis-test/state';
 
 @Component({
   selector: 'gat-repository-form',
@@ -31,7 +32,8 @@ export class RepositoryFormComponent implements OnInit {
     this.searchInputRef = searchInputRef;
   }
 
-  repositories$ = new BehaviorSubject<GetReposResponse['data']['items']>([]);
+  repositoriesState = inject(RepositoriesState);
+  repositories$ = new BehaviorSubject<Repository[]>([]);
   isLoading$ = new BehaviorSubject(false);
 
   form = this.nnfb.group({
@@ -39,6 +41,9 @@ export class RepositoryFormComponent implements OnInit {
   });
 
   ngOnInit(): void {
+    this.form.patchValue({
+      search: this.repositoriesState.getSearch()
+    });
     this.updateSearchResultsOnSearch();
   }
 
@@ -48,11 +53,12 @@ export class RepositoryFormComponent implements OnInit {
         tap((query) => {
           this.repositories$.next([]);
           this.isLoading$.next(!!query);
+          this.repositoriesState.setSearch(query);
         }),
         debounceTime(300),
         switchMap((query) => {
           if (!query.length) return of({ incomplete_results: true, items: [], total_count: 0 });
-          return from(this.searchGithubRepositories(query)).pipe(
+          return from(this.octokitService.searchGithubRepositories(query)).pipe(
             tap((response) => console.log(response.items)),
             catchError(() => {
               return of({ incomplete_results: true, items: [], total_count: 0 });
@@ -65,14 +71,6 @@ export class RepositoryFormComponent implements OnInit {
         })
       )
       .subscribe();
-  }
-
-  async searchGithubRepositories(query: string): Promise<GetReposResponse['data']> {
-    const { data } = await this.octokitService.octokit.request('/search/repositories?q={query}&type={type}', {
-        query,
-        type: 'repositories',
-      });
-    return data;
   }
 
   /**

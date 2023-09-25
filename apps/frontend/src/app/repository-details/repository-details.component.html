@@ -1,1 +1,10 @@
-<p>repository-details works!</p>
+<button (click)="goBackToRespositoriesList()"
+        mat-icon-button aria-label="arrow_back"
+        matTooltip="Back to repositories list"
+        class="back">
+  <mat-icon>arrow_back</mat-icon>
+</button>
+
+<pre>
+  <div>{{ repository | json }}</div>
+</pre>
