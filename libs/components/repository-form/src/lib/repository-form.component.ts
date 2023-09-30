@@ -8,7 +8,7 @@ import { RepositoryListComponent } from '@github-analysis-test/repository-list';
 import { BehaviorSubject, catchError, debounceTime, from, of, switchMap, tap } from 'rxjs';
 import { Repository } from '@github-analysis-test/models';
 import { OctokitService } from '@github-analysis-test/api-sdk';
-import { RepositoriesState } from '@github-analysis-test/state';
+import { RepositoriesStateSelectors, RepositoriesStateSetters } from '@github-analysis-test/state';
 
 @Component({
   selector: 'gat-repository-form',
@@ -32,7 +32,8 @@ export class RepositoryFormComponent implements OnInit {
     this.searchInputRef = searchInputRef;
   }
 
-  repositoriesState = inject(RepositoriesState);
+  repositoriesStateSelectors = inject(RepositoriesStateSelectors);
+  repositoriesStateSetters = inject(RepositoriesStateSetters);
   repositories$ = new BehaviorSubject<Repository[]>([]);
   isLoading$ = new BehaviorSubject(false);
 
@@ -42,7 +43,7 @@ export class RepositoryFormComponent implements OnInit {
 
   ngOnInit(): void {
     this.form.patchValue({
-      search: this.repositoriesState.getSearch()
+      search: this.repositoriesStateSelectors.getSearch()
     });
     this.updateSearchResultsOnSearch();
   }
@@ -53,20 +54,19 @@ export class RepositoryFormComponent implements OnInit {
         tap((query) => {
           this.repositories$.next([]);
           this.isLoading$.next(!!query);
-          this.repositoriesState.setSearch(query);
+          this.repositoriesStateSetters.setSearch(query);
         }),
         debounceTime(300),
         switchMap((query) => {
-          if (!query.length) return of({ incomplete_results: true, items: [], total_count: 0 });
+          if (!query.length) return of([]);
           return from(this.octokitService.searchGithubRepositories(query)).pipe(
-            tap((response) => console.log(response.items)),
             catchError(() => {
-              return of({ incomplete_results: true, items: [], total_count: 0 });
+              return of([]);
             }),
           )
         }),
         tap((response) => {
-          this.repositories$.next(response.items);
+          this.repositories$.next(response);
           this.isLoading$.next(false);
         })
       )

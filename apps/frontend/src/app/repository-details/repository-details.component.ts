@@ -2,7 +2,7 @@ import { ChangeDetectionStrategy, Component, OnInit, inject } from '@angular/cor
 import { CommonModule } from '@angular/common';
 import { Router } from '@angular/router';
 import { MatIconModule } from '@angular/material/icon';
-import { RepositoriesState } from '@github-analysis-test/state';
+import { RepositoriesStateSelectors } from '@github-analysis-test/state';
 import { Repository } from '@github-analysis-test/models';
 
 @Component({
@@ -13,13 +13,13 @@ import { Repository } from '@github-analysis-test/models';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class RepositoryDetailsComponent implements OnInit {
-  private repositoryState = inject(RepositoriesState);
+  private repositoryStateSelectors = inject(RepositoriesStateSelectors);
   private router = inject(Router);
 
   repository?: Repository;
 
   ngOnInit(): void {
-    this.repository = this.repositoryState.getActiveRepository();
+    this.repository = this.repositoryStateSelectors.getActiveRepository();
   }
 
   goBackToRespositoriesList(): void {

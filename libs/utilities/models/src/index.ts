@@ -1,1 +1,1 @@
-export * from './lib/repository.model'
+export * from './lib/repository.model';

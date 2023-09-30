@@ -1,25 +1,25 @@
-import { Injectable, inject } from "@angular/core";
+import { Injectable, inject } from '@angular/core';
 import { environment } from '@github-analysis-test/environment';
-import { GetReposResponse } from "@github-analysis-test/models";
-import { RepositoriesState } from "@github-analysis-test/state";
+import { GetReposResponse } from '@github-analysis-test/models';
+import { RepositoriesStateSetters } from '@github-analysis-test/state';
 import { Octokit } from 'octokit';
 
 @Injectable({
   providedIn: 'root',
 })
 export class OctokitService {
-  private repositoryState = inject(RepositoriesState);
+  private repositoriesStateSetters = inject(RepositoriesStateSetters);
   octokit = new Octokit({
     auth: environment.octokit.accessToken
   });
 
-  async searchGithubRepositories(query: string): Promise<GetReposResponse['data']> {
+  async searchGithubRepositories(query: string): Promise<GetReposResponse['data']['items']> {
     const { data } = await this.octokit.request('/search/repositories?q={query}&type={type}', {
         query,
         type: 'repositories',
       });
-    this.repositoryState.setRepositories(data.items);
+    this.repositoriesStateSetters.setRepositories(data.items, data.total_count);
 
-    return data;
+    return (data as GetReposResponse['data']).items;
   }
 }
