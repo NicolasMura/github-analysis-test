@@ -1,15 +1,11 @@
-import { createStore, withProps } from '@ngneat/elf';
-import {
-  withActiveId,
-  withActiveIds,
-  withEntities,
-} from '@ngneat/elf-entities';
 import { Repository } from '@github-analysis-test/models';
+import { createStore, withProps } from '@ngneat/elf';
+import { withActiveId, withEntities } from '@ngneat/elf-entities';
 
 interface StoreProps {
-  search: string,
-  isRepositoriesLoading: boolean,
-  totalCount: number,
+  search: string;
+  isRepositoriesLoading: boolean;
+  totalCount: number;
 }
 
 const initState: StoreProps = {
@@ -22,9 +18,8 @@ export const repositoriesStore = createStore(
   { name: 'repositories' },
   withEntities<Repository, 'name'>({
     initialValue: [],
-    idKey: 'name'
+    idKey: 'name',
   }),
   withActiveId(),
-  withActiveIds(),
-  withProps<StoreProps>(initState)
+  withProps<StoreProps>(initState),
 );

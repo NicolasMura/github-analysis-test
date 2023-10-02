@@ -10,14 +10,18 @@ import { Octokit } from 'octokit';
 export class OctokitService {
   private repositoriesStateSetters = inject(RepositoriesStateSetters);
   octokit = new Octokit({
-    auth: environment.octokit.accessToken
+    auth: environment.octokit.accessToken,
   });
 
-  async searchGithubRepositories(query: string): Promise<GetReposResponse['data']['items']> {
-    const { data } = await this.octokit.request('/search/repositories?q={query}&type={type}', {
+  async searchGithubRepositories(
+    query: string,
+  ): Promise<GetReposResponse['data']['items']> {
+    const { data } = await this.octokit.request(
+      '/search/repositories?q={query}',
+      {
         query,
-        type: 'repositories',
-      });
+      },
+    );
     this.repositoriesStateSetters.setRepositories(data.items, data.total_count);
 
     return (data as GetReposResponse['data']).items;

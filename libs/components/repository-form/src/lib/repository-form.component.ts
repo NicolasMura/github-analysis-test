@@ -1,14 +1,33 @@
-import { ChangeDetectionStrategy, Component, ElementRef, HostListener, OnInit, ViewChild, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  ElementRef,
+  HostListener,
+  OnInit,
+  ViewChild,
+  inject,
+} from '@angular/core';
+import { NonNullableFormBuilder, ReactiveFormsModule } from '@angular/forms';
 import { MatIconModule } from '@angular/material/icon';
 import { MatInputModule } from '@angular/material/input';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
-import { NonNullableFormBuilder, ReactiveFormsModule } from '@angular/forms';
-import { RepositoryListComponent } from '@github-analysis-test/repository-list';
-import { BehaviorSubject, catchError, debounceTime, from, of, switchMap, tap } from 'rxjs';
-import { Repository } from '@github-analysis-test/models';
 import { OctokitService } from '@github-analysis-test/api-sdk';
-import { RepositoriesStateSelectors, RepositoriesStateSetters } from '@github-analysis-test/state';
+import { Repository } from '@github-analysis-test/models';
+import { RepositoryListComponent } from '@github-analysis-test/repository-list';
+import {
+  RepositoriesStateSelectors,
+  RepositoriesStateSetters,
+} from '@github-analysis-test/state';
+import {
+  BehaviorSubject,
+  catchError,
+  debounceTime,
+  from,
+  of,
+  switchMap,
+  tap,
+} from 'rxjs';
 
 @Component({
   selector: 'gat-repository-form',
@@ -19,7 +38,7 @@ import { RepositoriesStateSelectors, RepositoriesStateSetters } from '@github-an
     MatInputModule,
     MatProgressSpinnerModule,
     ReactiveFormsModule,
-    RepositoryListComponent
+    RepositoryListComponent,
   ],
   templateUrl: './repository-form.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -28,7 +47,9 @@ export class RepositoryFormComponent implements OnInit {
   private octokitService = inject(OctokitService);
   private nnfb = inject(NonNullableFormBuilder);
   private searchInputRef!: ElementRef;
-  @ViewChild('searchInputRef', { static: false }) private set input(searchInputRef: ElementRef) {
+  @ViewChild('searchInputRef', { static: false }) private set input(
+    searchInputRef: ElementRef,
+  ) {
     this.searchInputRef = searchInputRef;
   }
 
@@ -38,13 +59,18 @@ export class RepositoryFormComponent implements OnInit {
   isLoading$ = new BehaviorSubject(false);
 
   form = this.nnfb.group({
-    search: ['']
+    search: [''],
   });
 
   ngOnInit(): void {
     this.form.patchValue({
-      search: this.repositoriesStateSelectors.getSearch()
+      search: this.repositoriesStateSelectors.getSearch(),
     });
+
+    // if (this.form.controls.search) {
+    //   this.repositories$.next(this.repositoriesStateSelectors.repositories$);
+    // }
+
     this.updateSearchResultsOnSearch();
   }
 
@@ -55,6 +81,7 @@ export class RepositoryFormComponent implements OnInit {
           this.repositories$.next([]);
           this.isLoading$.next(!!query);
           this.repositoriesStateSetters.setSearch(query);
+          if (!query.length) this.repositoriesStateSetters.setRepositories([]);
         }),
         debounceTime(300),
         switchMap((query) => {
@@ -63,12 +90,13 @@ export class RepositoryFormComponent implements OnInit {
             catchError(() => {
               return of([]);
             }),
-          )
+          );
         }),
         tap((response) => {
+          console.log(response);
           this.repositories$.next(response);
           this.isLoading$.next(false);
-        })
+        }),
       )
       .subscribe();
   }

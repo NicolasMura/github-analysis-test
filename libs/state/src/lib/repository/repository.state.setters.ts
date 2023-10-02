@@ -1,15 +1,14 @@
 import { Injectable } from '@angular/core';
-import { setActiveId, setEntities } from '@ngneat/elf-entities';
 import { Repository } from '@github-analysis-test/models';
-import { repositoriesStore } from './repository.state';
 import { setProp } from '@ngneat/elf';
+import { setActiveId, setEntities } from '@ngneat/elf-entities';
+import { repositoriesStore } from './repository.state';
 
 @Injectable({ providedIn: 'root' })
 export class RepositoriesStateSetters {
-
-  setRepositories(repositories: Repository[], totalCount: number): void {
+  setRepositories(repositories: Repository[], totalCount?: number): void {
     repositoriesStore.update(setEntities(repositories));
-    repositoriesStore.update(setProp('totalCount', totalCount));
+    totalCount && repositoriesStore.update(setProp('totalCount', totalCount));
   }
 
   setActiveRepository(repositoryName: string): void {
